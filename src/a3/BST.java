@@ -55,6 +55,13 @@ public interface BST {
      */
     String findMax();
 
+    /**
+     * Returns true if the bst contains the given string
+     * and false otherwise. This method should call upon a
+     * private recursive contains() method
+     * @return true if the string is in the tree, false if not
+     */
+    boolean contains(String s);
 
     /**
      * Returns the number of elements in the tree.

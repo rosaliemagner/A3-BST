@@ -10,6 +10,11 @@ public class BSTImpl implements BST {
         size = 0;
     }
 
+    public BSTImpl(String s) {
+        root = new NodeImpl(s);
+        size = 0;
+    }
+
     // The implementation of "height" is given to you below
     // it is here to illustrate for you how to set up
     // the method implementation as recursion.
