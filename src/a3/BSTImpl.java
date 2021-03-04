@@ -50,6 +50,7 @@ public class BSTImpl implements BST {
     @Override
     public void remove(String value) {
         remove_r(value,this.root);
+        size--;
     }
     private Node remove_r(String k, Node c) {
         if (c==null) return null; // item not found, nothing to do
@@ -68,24 +69,24 @@ public class BSTImpl implements BST {
         }
         else //cflag==0
         { // found it... now figure out how to rearrange
-            size--; // size goes down
+
             // cases
-            if (c.getLeft()==null && c.getRight()==null) { return null; } // leaf
-            if (c.getLeft()==null && c.getRight()!=null) { c = c.getRight(); } // RC only
+            if (c.getLeft()==null && c.getRight()==null) { c = null; } // leaf
+            else if (c.getLeft()==null && c.getRight()!=null) { c = c.getRight(); } // RC only
             else if (c.getLeft()!=null && c.getRight()==null) { c = c.getLeft(); } // LC only
             else { // 2 children
-                Node min = minCell(c.getRight());
-                c.setValue(min.getValue());
-                c.setRight(remove_r(c.getValue(), c.getRight())); // recurse
+                Node max = maxCell(c.getLeft());
+                c.setValue(max.getValue());
+                c.setLeft(remove_r(c.getValue(), c.getLeft()));   // recurse
             }
             return c;
         }
 
-    };
+    }
 
-    private Node minCell(Node c) { // this is used in remove too
-        if (c.getLeft()==null) return c;
-        return minCell(c.getLeft());
+    private Node maxCell(Node c) { // this is used in remove too
+        if (c.getRight()==null) return c;
+        return maxCell(c.getRight());
     } ;
 
     @Override
