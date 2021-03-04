@@ -46,8 +46,47 @@ public class BSTImpl implements BST {
     @Override
     public String insert(String value) { return null; }
 
+    // remove implementation given to you, do NOT change
     @Override
-    public void remove(String value) { }
+    public void remove(String value) {
+        remove_r(value,this.root);
+    }
+    private Node remove_r(String k, Node c) {
+        if (c==null) return null; // item not found, nothing to do
+
+        // now we know we have a real node to examine
+        int cflag = k.compareTo(c.getValue());
+
+        if (cflag<0) { // k is smaller than node
+            c.setLeft(remove_r(k,c.getLeft()));
+            return c;
+        }
+        else
+        if (cflag>0) { // k is larger than node
+            c.setRight(remove_r(k,c.getRight()));
+            return c;
+        }
+        else //cflag==0
+        { // found it... now figure out how to rearrange
+            size--; // size goes down
+            // cases
+            if (c.getLeft()==null && c.getRight()==null) { return null; } // leaf
+            if (c.getLeft()==null && c.getRight()!=null) { c = c.getRight(); } // RC only
+            else if (c.getLeft()!=null && c.getRight()==null) { c = c.getLeft(); } // LC only
+            else { // 2 children
+                Node min = minCell(c.getRight());
+                c.setValue(min.getValue());
+                c.setRight(remove_r(c.getValue(), c.getRight())); // recurse
+            }
+            return c;
+        }
+
+    };
+
+    private Node minCell(Node c) { // this is used in remove too
+        if (c.getLeft()==null) return c;
+        return minCell(c.getLeft());
+    } ;
 
     @Override
     public boolean isFull() {
@@ -61,6 +100,16 @@ public class BSTImpl implements BST {
 
     @Override
     public String findMax() {
+        return null;
+    }
+
+    @Override
+    public boolean contains(String s) {
+        return false;
+    }
+
+    @Override
+    public Node get(String s) {
         return null;
     }
 

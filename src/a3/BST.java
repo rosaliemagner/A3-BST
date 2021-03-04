@@ -64,11 +64,19 @@ public interface BST {
     boolean contains(String s);
 
     /**
+     * Return the node that contains the given String as its value
+     * @param s - the desired string
+     * @return Node containing the string
+     */
+    Node get(String s);
+    /**
      * Returns the number of elements in the tree.
      *
      * @return the number of elements in the tree
      */
     int size();
+
+
 
 
 }
