@@ -12,7 +12,7 @@ public class BSTImpl implements BST {
 
     public BSTImpl(String s) {
         root = new NodeImpl(s);
-        size = 0;
+        size = 1;
     }
 
     // The implementation of "height" is given to you below
@@ -44,7 +44,35 @@ public class BSTImpl implements BST {
     }
 
     @Override
-    public String insert(String value) { return null; }
+    public String insert(String value) {
+        if (this.root == null) {
+                this.root = new NodeImpl(value);
+            } else this.insert_r(value, this.root);
+        return value;
+    }
+
+    private Node insert_r(String k, Node c) {
+        int cflag = k.compareTo(c.getValue());
+            this.size ++;
+            if (cflag<0) { // k is smaller than node
+                if (c.getLeft() == null) {
+                    c.setLeft(new NodeImpl(k));
+                } else {
+                    insert_r(k, c.getLeft());
+                }
+            }
+            else
+            if (cflag>0) { // k is larger than node
+                if (c.getRight() == null) {
+                    c.setRight(new NodeImpl(k));
+                } else {
+                    insert_r(k,c.getRight());
+                }
+                return c;
+            }
+                return c;
+
+            }
 
     // remove implementation given to you, do NOT change
     @Override
@@ -87,31 +115,117 @@ public class BSTImpl implements BST {
     private Node maxCell(Node c) { // this is used in remove too
         if (c.getRight()==null) return c;
         return maxCell(c.getRight());
-    } ;
+    }
 
     @Override
     public boolean isFull() {
-        return false;
+        Node c = this.root;
+        Boolean check = true;
+        if (c.getLeft()==null && c.getRight()!=null) { check = false; }
+            else if (c.getLeft()!=null && c.getRight()==null) { check = false; }
+            else if (c.getLeft()==null && c.getRight()==null) { check = true; }
+            else if (c.getLeft()!=null && c.getRight()!=null) { check = isFull_r(c.getLeft(), c.getRight());}
+        return check;
     }
+
+    private boolean isFull_r(Node c, Node d) {
+        Boolean checknode = true;
+        if (c.getLeft()==null && c.getRight()!=null) { checknode = false; }
+        else if (c.getLeft()!=null && c.getRight()==null) { checknode = false; }
+        else if (c.getLeft()==null && c.getRight()==null) { checknode = true; }
+        else if (c.getLeft()!=null && c.getRight()!=null) { checknode = isFull_r(c.getLeft(), c.getRight());}
+        if (d.getLeft()==null && d.getRight()!=null) { checknode = false; }
+        else if (d.getLeft()!=null && d.getRight()==null) { checknode = false; }
+        else if (d.getLeft()==null && d.getRight()==null) { checknode = true; }
+        else if (d.getLeft()!=null && d.getRight()!=null) { checknode = isFull_r(d.getLeft(), d.getRight());}
+        return checknode;
+    }
+
 
     @Override
     public String findMin() {
-        return null;
+        Node c = this.root;
+        if (this.root == null) {
+            return null;
+        }
+        if (c.getRight() == null && c.getLeft() == null) {
+                return c.getValue();}
+        else {
+            return findMin_r(c,c.getLeft());}
     }
+
+    private String findMin_r(Node c, Node d) {
+        return "e";
+    }
+
+
 
     @Override
     public String findMax() {
-        return null;
+        Node c = this.root;
+        if (this.root == null) {
+            return null;
+        } else {
+            return "e";}
+    }
+    private Node findMax_r(Node c) {
+        if (c.getRight() == null) {
+            return null;
+        } else {
+            findMin_r(c, c.getLeft());
+        }
+        return this.root;
     }
 
     @Override
     public boolean contains(String s) {
-        return false;
+        return contains_r(s, this.root);
     }
+    private boolean contains_r(String s, Node c) {
+        int compare = s.compareTo(c.getValue());
+        if (compare < 0) { // s is smaller than node
+            if (c.getLeft() == null) {
+                return false;
+            } else { c = c.getLeft();
+                get_r(s, c);
+            }
+        } else if (compare > 0) { // s is larger than node
+            if (c.getRight() == null) {
+                return false;
+            } else { c = c.getRight();
+                get_r(s, c);
+            }
+        }
+        return true;
+        }
+
 
     @Override
     public Node get(String s) {
-        return null;
+        if (this.root == null) {
+            return null;
+        } else
+        get_r(s,this.root);
+        return this.root;
+    }
+
+    private Node get_r(String s, Node c) {
+        int compare = s.compareTo(c.getValue());
+        if (compare < 0) { // s is smaller than node
+            if (c.getLeft() == null) {
+                return null;
+            } else {
+                get_r(s, c.getLeft());
+            }
+        }
+        if (compare > 0) { // s is larger than node
+            if (c.getRight() == null) {
+                return null;
+            } else {
+                get_r(s, c.getRight());
+            }
+        }
+        return c;
     }
 
     @Override
@@ -119,3 +233,4 @@ public class BSTImpl implements BST {
         return this.size;
     }
 }
+
