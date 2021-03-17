@@ -44,9 +44,34 @@ public class BSTImpl implements BST {
     }
 
     @Override
-    public String insert(String value) { return null; }
+    public String insert(String value) {
+        for (int i = 0; i < this.size; i++) {
+            if (this.root = null) {
+                this.root = value;
+            } else this.insert_r(value, this.root);
 
-    // remove implementation given to you, do NOT change
+        }
+    };
+
+    private Node insert_r(String k, Node c) {
+        int cflag = k.compareTo(c.getValue());
+
+            if (cflag<0) { // k is smaller than node
+                c.setLeft(insert_r(k,c.getLeft()));
+                return c;
+            }
+            else
+            if (cflag>0) { // k is larger than node
+                c.setRight(insert_r(k,c.getRight()));
+                return c;
+            }
+            else //found the node, now insert value
+            {if (c.getLeft()==null && c.getRight()==null) { c.setValue(k); }
+            }
+                return c;
+
+            };
+
     @Override
     public void remove(String value) {
         remove_r(value,this.root);
