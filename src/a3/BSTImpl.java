@@ -12,7 +12,7 @@ public class BSTImpl implements BST {
 
     public BSTImpl(String s) {
         root = new NodeImpl(s);
-        size = 0;
+        size = 1;
     }
 
     // The implementation of "height" is given to you below
@@ -44,7 +44,33 @@ public class BSTImpl implements BST {
     }
 
     @Override
-    public String insert(String value) { return null; }
+    public String insert(String value) {
+        Node c = this.root;
+        if (this.root == null) {
+                c.setValue(value);
+            } else this.insert_r(value, this.root);
+        return value;
+    }
+
+    private Node insert_r(String k, Node c) {
+        int cflag = k.compareTo(c.getValue());
+
+            if (cflag<0) { // k is smaller than node
+                c.setLeft(insert_r(k,c.getLeft()));
+                return c;
+            }
+            else
+            if (cflag>0) { // k is larger than node
+                c.setRight(insert_r(k,c.getRight()));
+                return c;
+            }
+            else //found the node, now insert value
+            {if (c.getLeft()==null && c.getRight()==null) { c.setValue(k); }
+            }
+            size ++;
+                return c;
+
+            };
 
     // remove implementation given to you, do NOT change
     @Override
@@ -87,16 +113,21 @@ public class BSTImpl implements BST {
     private Node maxCell(Node c) { // this is used in remove too
         if (c.getRight()==null) return c;
         return maxCell(c.getRight());
-    } ;
+    }
 
     @Override
     public boolean isFull() {
-        return false;
+        Node c = this.root;
+        Boolean check = true;
+        if (c.getLeft()==null && c.getRight()!=null) { check = false; }
+            else if (c.getLeft()!=null && c.getRight()==null) { check = false; }
+            else if (c.getLeft()!=null && c.getRight()!=null) { check = true; }
+        return check;
     }
 
     @Override
     public String findMin() {
-        return null;
+        return "hello";
     }
 
     @Override
@@ -106,12 +137,47 @@ public class BSTImpl implements BST {
 
     @Override
     public boolean contains(String s) {
-        return false;
+        return contains_r(s, this.root);
+    }
+    private boolean contains_r(String s, Node c) {
+        int compare = s.compareTo(c.getValue());
+        if (compare < 0) { // s is smaller than node
+            
+            return false;
+        } else if (compare > 0) { // s is larger than node
+            
+            return false;
+        }
+        if (compare == 0) { //found it... now return the answer
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public Node get(String s) {
-        return null;
+        return get_r(s,this.root);
+    };
+
+    private Node get_r(String s, Node c) {
+    int compare = s.compareTo(c.getValue());
+        if (compare<0) { // s is smaller than node
+            c.setLeft(get_r(s,c.getLeft()));
+            return c;
+        }
+        else
+        if (compare>0) { // s is larger than node
+            c.setRight(get_r(s,c.getRight()));
+            return c;
+        }
+        if (compare == 0)
+        { //found it... now return the node
+            return c;
+        }
+        else
+        { return null;
+        }
     }
 
     @Override
